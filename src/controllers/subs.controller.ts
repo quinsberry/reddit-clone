@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { isEmpty, validate } from 'class-validator'
+import { isEmpty } from 'class-validator'
 import { getRepository } from 'typeorm'
 
 import { User } from '../entities/User'

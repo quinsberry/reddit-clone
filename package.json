@@ -29,8 +29,9 @@
     "typeorm": "0.2.29"
   },
   "scripts": {
-    "start": "ts-node src/server.ts",
+    "start": "node build/server.js",
     "server": "nodemon",
+    "server:build": "npx tsc",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js"
   }
 }

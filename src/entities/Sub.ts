@@ -1,7 +1,5 @@
 import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, OneToMany } from 'typeorm'
 
-import { makeId, slugify } from '../utils/helpers'
-
 import { Entity } from './Entity'
 import { Post } from './Post'
 import { User } from './User'
