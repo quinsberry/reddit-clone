@@ -1,1 +1,3 @@
-export { authRoutes } from './auth.route'
+export { authRoutes } from './auth.routes'
+export { postsRoutes } from './posts.routes'
+export { subsRoutes } from './subs.routes'

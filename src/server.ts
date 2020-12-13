@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 
 dotenv.config()
-import { authRoutes } from './routes'
+import { authRoutes, postsRoutes, subsRoutes } from './routes'
 import { trim } from './middleware'
 
 const app = express()
@@ -18,6 +18,8 @@ app.use(cookieParser())
 
 app.get('/', (_, res) => res.send("It's working"))
 app.use('/api/auth', authRoutes)
+app.use('/api/posts', postsRoutes)
+app.use('/api/subs', subsRoutes)
 
 const PORT = process.env.PORT || 6000
 async function start() {

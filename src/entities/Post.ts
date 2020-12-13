@@ -1,9 +1,10 @@
-import { Entity as TOEntity, Column, Index, BeforeInsert } from 'typeorm'
-import { IsEmail, Length } from 'class-validator'
-import bcrypt from 'bcrypt'
-import { Exclude } from 'class-transformer'
+import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert } from 'typeorm'
+
+import { makeId, slugify } from '../utils/helpers'
 
 import { Entity } from './Entity'
+import { Sub } from './Sub'
+import { User } from './User'
 
 @TOEntity('posts', { name: 'posts' })
 export class Post extends Entity {
@@ -28,4 +29,18 @@ export class Post extends Entity {
 
   @Column()
   subName: string
+
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: 'username', referencedColumnName: 'username' })
+  user: User
+
+  @ManyToOne(() => Sub, (user) => user.posts)
+  @JoinColumn({ name: 'subName', referencedColumnName: 'name' })
+  sub: Sub
+
+  @BeforeInsert()
+  makeIdAndSlug() {
+    this.identifier = makeId(7)
+    this.slug = slugify(this.title)
+  }
 }

@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "ts-node src/server.ts",
-    "dev": "nodemon"
+    "server": "nodemon",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js"
   }
 }
