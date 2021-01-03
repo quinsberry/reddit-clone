@@ -6,7 +6,14 @@ import cookie from 'cookie'
 
 import { User } from '../entities/User'
 
-export class AuthController {
+const mapErrors = (errors: Object[]): { [key: string]: string } => {
+  return errors.reduce((init: any, err: any) => {
+    init[err.property] = Object.entries(err.constraints)[0][1]
+    return init
+  }, {})
+}
+
+class AuthController {
   async register(req: Request, res: Response) {
     const { email, username, password } = req.body
 
@@ -19,8 +26,8 @@ export class AuthController {
       if (usernameUser) errors.username = 'Username is already taken.'
 
       if (Object.keys(errors).length) {
-        return res.status(400).json({
-          code: 400,
+        return res.status(422).json({
+          code: 422,
           status: 'error',
           errors,
           message: 'Some fields are already taken.',
@@ -31,10 +38,10 @@ export class AuthController {
 
       errors = await validate(user)
       if (errors.length) {
-        return res.status(400).json({
-          code: 400,
+        return res.status(422).json({
+          code: 422,
           status: 'error',
-          errors,
+          errors: mapErrors(errors),
           message: 'Validation error.',
         })
       }
@@ -80,7 +87,9 @@ export class AuthController {
         return res.status(404).json({
           code: 404,
           status: 'error',
-          errors: [],
+          errors: {
+            username: 'User not found',
+          },
           message: 'User not found.',
         })
       }
@@ -163,3 +172,5 @@ export class AuthController {
     }
   }
 }
+
+export const AuthCtrl = new AuthController()

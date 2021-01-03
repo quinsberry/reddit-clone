@@ -52,3 +52,5 @@ export class SubsController {
     }
   }
 }
+
+export const SubsCtrl = new SubsController()

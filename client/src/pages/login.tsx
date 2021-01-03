@@ -6,18 +6,14 @@ import { useRouter } from 'next/router'
 
 import { InputGroup } from '../components/common/InputGroup'
 
-export default function Register() {
-  const [email, setEmail] = useState('')
+export default function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [agreement, setAgreement] = useState(false)
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
 
   const router = useRouter()
 
   const handleOnChange = {
-    agreement: (e: any) => setAgreement(e.target.checked),
-    email: (e: any) => setEmail(e.target.value),
     username: (e: any) => setUsername(e.target.value),
     password: (e: any) => setPassword(e.target.value),
   }
@@ -25,18 +21,13 @@ export default function Register() {
   const submitForm = async (e: FormEvent) => {
     e.preventDefault()
 
-    if (!agreement) {
-      return setErrors({ ...errors, agreement: 'You must agree to T&Cs' })
-    }
-
     try {
-      await axios.post('/auth/register', {
-        email,
-        password,
+      await axios.post('/auth/login', {
         username,
+        password,
       })
 
-      router.push('/login')
+      router.push('/')
     } catch (err) {
       console.log('>> ', err.response.data.errors)
       setErrors(err.response.data.errors)
@@ -46,14 +37,14 @@ export default function Register() {
   return (
     <div className="flex">
       <Head>
-        <title>Register</title>
+        <title>Login</title>
       </Head>
 
       <div className="h-screen bg-center bg-cover w-36" style={{ backgroundImage: "url('/images/bricks.jpg')" }}></div>
 
       <div className="flex flex-col justify-center pl-6">
         <div className="w-70">
-          <h1 className="mb-2 text-lg font-medium">Sign Up</h1>
+          <h1 className="mb-2 text-lg font-medium">Login</h1>
           <p className="mb-10 text-xs">
             By continuing, you agree to our{' '}
             <a className="text-blue-600" target="_blank" href="https://www.redditinc.com/policies/user-agreement">
@@ -65,27 +56,6 @@ export default function Register() {
             </a>
           </p>
           <form onSubmit={submitForm}>
-            <div className="mb-6 ">
-              <input
-                type="checkbox"
-                className="mr-1 cursor-pointer"
-                id="agreement"
-                checked={agreement}
-                onChange={handleOnChange.agreement}
-              />
-              <label htmlFor="agreement" className="text-xs cursor-pointer">
-                I agree to get emails about cool stuff on Reddit
-              </label>
-              <small className="block font-medium text-red-600">{errors.agreement}</small>
-            </div>
-            <InputGroup
-              className="mb-2"
-              type="email"
-              error={errors.email}
-              placeholder="EMAIL"
-              value={email}
-              onChange={handleOnChange.email}
-            />
             <InputGroup
               className="mb-2"
               type="text"
@@ -105,13 +75,13 @@ export default function Register() {
             <button
               type="submit"
               className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border border-blue-500 rounded">
-              Sign Up
+              Log In
             </button>
           </form>
           <small>
-            Already a Reddit?
-            <Link href="/login">
-              <a className="ml-1 font-medium text-blue-500 uppercase">Log In</a>
+            New to Reddit?
+            <Link href="/register">
+              <a className="ml-1 font-medium text-blue-500 uppercase">Sign Up</a>
             </Link>
           </small>
         </div>

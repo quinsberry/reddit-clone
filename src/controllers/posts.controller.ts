@@ -136,3 +136,5 @@ export class PostsController {
     }
   }
 }
+
+export const PostsCtrl = new PostsController()
