@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { InputGroup } from '../components/common/InputGroup'
+import { InputGroup } from '@components/common/InputGroup'
 
 export default function Register() {
   const [email, setEmail] = useState('')
@@ -44,7 +44,7 @@ export default function Register() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex bg-white">
       <Head>
         <title>Register</title>
       </Head>

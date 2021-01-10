@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { InputGroup } from '../components/common/InputGroup'
+import { InputGroup } from '@components/common/InputGroup'
 
 export default function Login() {
   const [username, setUsername] = useState('')
@@ -35,7 +35,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex bg-white">
       <Head>
         <title>Login</title>
       </Head>
