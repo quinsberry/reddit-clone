@@ -1,9 +1,10 @@
-import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert } from 'typeorm'
+import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany } from 'typeorm'
 import { makeId } from '../utils/helpers'
 
 import { Entity } from './Entity'
 import { Post } from './Post'
 import { User } from './User'
+import { Vote } from './Vote'
 
 @TOEntity('comments', { name: 'comments' })
 export class Comment extends Entity {
@@ -28,6 +29,9 @@ export class Comment extends Entity {
 
   @ManyToOne(() => Post, (post) => post.comments, { nullable: false })
   post: Post
+
+  @OneToMany(() => Vote, (vote) => vote.comment)
+  votes: Vote[]
 
   @BeforeInsert()
   makeIdAndSlug() {
