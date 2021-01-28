@@ -1,5 +1,5 @@
 import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany } from 'typeorm'
-import { makeId } from '../utils/helpers'
+import { makeId } from '@utils/helpers'
 
 import { Entity } from './Entity'
 import { Post } from './Post'

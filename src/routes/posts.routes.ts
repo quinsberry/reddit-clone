@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import { PostsCtrl } from '../controllers/posts.controller'
-import { auth } from '../middleware'
+import { PostsCtrl } from '@controllers/posts.controller'
+import { auth } from '@middleware/auth.middleware'
 
 export const postsRoutes = Router()
 

@@ -2,8 +2,8 @@ import { Request, Response } from 'express'
 import { isEmpty } from 'class-validator'
 import { getRepository } from 'typeorm'
 
-import { User } from '../entities/User'
-import { Sub } from '../entities/Sub'
+import { User } from '@entities/User'
+import { Sub } from '@entities/Sub'
 
 export class SubsController {
   async createSub(req: Request, res: Response) {

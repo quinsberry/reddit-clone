@@ -26,5 +26,6 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true
   },
-  "exclude": ["client"]
+  "exclude": ["client"],
+  "extends": "./tsconfig.paths.json"
 }

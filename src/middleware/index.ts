@@ -1,2 +1,2 @@
-export { trim } from './trim'
-export { auth } from './auth'
+export { trim } from './trim.middleware'
+export { auth } from './auth.middleware'

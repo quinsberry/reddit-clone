@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 
-import { Post } from '../entities/Post'
-import { Sub } from '../entities/Sub'
-import { Comment } from '../entities/Comment'
+import { Post } from '@entities/Post'
+import { Sub } from '@entities/Sub'
+import { Comment } from '@entities/Comment'
 
 export class PostsController {
   async createPost(req: Request, res: Response) {

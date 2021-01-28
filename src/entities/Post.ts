@@ -1,7 +1,7 @@
 import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany } from 'typeorm'
 import { Expose } from 'class-transformer'
 
-import { makeId, slugify } from '../utils/helpers'
+import { makeId, slugify } from '@utils/helpers'
 import { Comment } from './Comment'
 
 import { Entity } from './Entity'
