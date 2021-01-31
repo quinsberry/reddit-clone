@@ -1,8 +1,10 @@
 import { Router } from 'express'
 
-import { SubsCtrl } from '@controllers/subs.controller'
 import { auth } from '@middleware/auth.middleware'
+import { user } from '@middleware/user.middleware'
+
+import { SubsCtrl } from '@controllers/subs.controller'
 
 export const subsRoutes = Router()
 
-subsRoutes.post('/', auth, SubsCtrl.createSub)
+subsRoutes.post('/', user, auth, SubsCtrl.createSub)

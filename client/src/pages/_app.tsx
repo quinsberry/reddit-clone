@@ -5,6 +5,7 @@ import axios from 'axios'
 import { Navbar } from '@components/Navbar'
 
 import '@styles/tailwind.css'
+import '@styles/icons.css'
 
 axios.defaults.baseURL = 'http://localhost:5000/api'
 axios.defaults.withCredentials = true

@@ -1,8 +1,10 @@
 import { Router } from 'express'
 
-import { MiscCtrl } from '@controllers/misc.controller'
 import { auth } from '@middleware/auth.middleware'
+import { user } from '@middleware/user.middleware'
+
+import { MiscCtrl } from '@controllers/misc.controller'
 
 export const miscRoutes = Router()
 
-miscRoutes.post('/vote', auth, MiscCtrl.vote)
+miscRoutes.post('/vote', user, auth, MiscCtrl.vote)

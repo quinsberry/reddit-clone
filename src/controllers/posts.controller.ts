@@ -50,7 +50,14 @@ export class PostsController {
 
   async getPosts(_: Request, res: Response) {
     try {
-      const posts = await Post.find({ order: { createdAt: 'DESC' } })
+      const posts = await Post.find({
+        order: { createdAt: 'DESC' },
+        relations: ['comments', 'votes', 'sub'],
+      })
+
+      if (res.locals.user) {
+        posts.forEach((p) => p.setUserVote(res.locals.user))
+      }
 
       return res.status(200).json({
         code: 200,

@@ -1,33 +1,18 @@
 import { NextFunction, Request, Response } from 'express'
-import jwt from 'jsonwebtoken'
 
 import { User } from '@entities/User'
 
-export const auth = async (req: Request, res: Response, next: NextFunction) => {
+export const auth = async (_: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies.token
-    if (!token) {
-      return res.status(401).json({
-        code: 401,
-        status: 'error',
-        errors: [],
-        message: 'Unauthenticated.',
-      })
-    }
+    const user: User | undefined = res.locals.user
 
-    const { username }: any = jwt.verify(token, process.env.JWT_SECRET || 'secret_key')
-
-    const user = await User.findOne({ username })
     if (!user) {
       return res.status(401).json({
         code: 401,
         status: 'error',
-        errors: [],
-        message: 'Unauthenticated.',
+        message: 'Unauthenticated',
       })
     }
-
-    res.locals.user = user
 
     return next()
   } catch (err) {

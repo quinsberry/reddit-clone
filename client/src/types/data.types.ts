@@ -7,6 +7,10 @@ export interface IPost {
   createdAt: string
   updatedAt: string
   username: string
+
   // Virtual fields
   url: string
+  voteScore?: number
+  commentCount?: number
+  userVote?: number
 }
