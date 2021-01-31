@@ -5,6 +5,7 @@ import { Exclude } from 'class-transformer'
 
 import { Entity } from './Entity'
 import { Post } from './Post'
+import { Vote } from './Vote'
 
 @TOEntity('users', { name: 'users' })
 export class User extends Entity {
@@ -31,6 +32,9 @@ export class User extends Entity {
 
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[]
+
+  @OneToMany(() => Vote, (vote) => vote.user)
+  votes: Vote[]
 
   @BeforeInsert()
   async hashPassword() {

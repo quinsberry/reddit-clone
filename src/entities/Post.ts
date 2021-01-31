@@ -1,5 +1,5 @@
 import { Entity as TOEntity, Column, Index, ManyToOne, JoinColumn, BeforeInsert, OneToMany } from 'typeorm'
-import { Expose } from 'class-transformer'
+import { Exclude, Expose } from 'class-transformer'
 
 import { makeId, slugify } from '@utils/helpers'
 import { Comment } from './Comment'
@@ -47,11 +47,26 @@ export class Post extends Entity {
   @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[]
 
-  @OneToMany(() => Vote, (vote) => vote.comment)
+  @Exclude()
+  @OneToMany(() => Vote, (vote) => vote.post)
   votes: Vote[]
 
   @Expose() get url(): string {
     return `/r/${this.subName}/${this.identifier}/${this.slug}`
+  }
+
+  @Expose() get commentCount(): number {
+    return this.comments?.length
+  }
+
+  @Expose() get voteScore(): number {
+    return this.votes?.reduce((prev, curr) => prev + (curr.value || 0), 0)
+  }
+
+  protected userVote: number
+  setUserVote(user: User) {
+    const index = this.votes?.findIndex((v) => v.username === user.username)
+    this.userVote = index > -1 ? this.votes[index].value : 0
   }
 
   @BeforeInsert()

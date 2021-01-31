@@ -47,7 +47,7 @@ export class SubsController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }

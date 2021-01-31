@@ -14,7 +14,6 @@ export class PostsController {
       return res.status(400).json({
         code: 400,
         status: 'error',
-        errors: [],
         message: 'Title must not be empty',
       })
     }
@@ -25,7 +24,6 @@ export class PostsController {
         return res.status(404).json({
           code: 404,
           status: 'error',
-          errors: [],
           message: 'Sub has not found.',
         })
       }
@@ -45,7 +43,7 @@ export class PostsController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
@@ -66,7 +64,7 @@ export class PostsController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
@@ -79,7 +77,6 @@ export class PostsController {
         return res.status(404).json({
           code: 404,
           status: 'error',
-          errors: [],
           message: 'Post has not found.',
         })
       }
@@ -96,7 +93,7 @@ export class PostsController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
@@ -111,7 +108,6 @@ export class PostsController {
         return res.status(404).json({
           code: 404,
           status: 'error',
-          errors: [],
           message: 'Post has not found.',
         })
       }
@@ -131,7 +127,7 @@ export class PostsController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }

@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 dotenv.config()
-import { authRoutes, postsRoutes, subsRoutes } from './routes'
+import { authRoutes, postsRoutes, subsRoutes, miscRoutes } from './routes'
 import { trim } from './middleware'
 
 const app = express()
@@ -28,6 +28,7 @@ app.get('/', (_, res) => res.send("It's working"))
 app.use('/api/auth', authRoutes)
 app.use('/api/posts', postsRoutes)
 app.use('/api/subs', subsRoutes)
+app.use('/api/misc', miscRoutes)
 
 const PORT = process.env.PORT || 5000
 async function start() {

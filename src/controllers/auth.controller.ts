@@ -60,7 +60,7 @@ class AuthController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
@@ -130,7 +130,7 @@ class AuthController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
@@ -167,7 +167,7 @@ class AuthController {
         code: 500,
         status: 'error',
         errors: err,
-        message: 'Internal error.',
+        message: 'Something went wrong',
       })
     }
   }
