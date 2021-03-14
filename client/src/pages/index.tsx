@@ -4,47 +4,47 @@ import Head from 'next/head'
 
 import { PostCard } from '@components/PostCard'
 
-import { IPost } from '@types/data.types'
-import { IResponse } from '@types/api.types'
+import { Post } from '@tps/data.types'
+import { IResponse } from '@tps/api.types'
 
 export default function Home() {
-  const [posts, setPosts] = useState<IPost[]>([])
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const { data } = await axios.get<IResponse<IPost[]>>('/posts')
-        setPosts(data.data)
-      } catch (err) {
-        console.log(err.response.data)
-      }
-    }
+    const [posts, setPosts] = useState<Post[]>([])
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const { data } = await axios.get<IResponse<Post[]>>('/posts')
+                setPosts(data.data)
+            } catch (err) {
+                console.log(err.response.data)
+            }
+        }
 
-    fetchPosts()
-  }, [])
+        fetchPosts()
+    }, [])
 
-  return (
-    <div className="pt-12">
-      <Head>
-        <title>reddit: the front page of the internet</title>
-      </Head>
+    return (
+        <div className="pt-12">
+            <Head>
+                <title>reddit: the front page of the internet</title>
+            </Head>
 
-      <div className="container flex pt-4">
-        {/* Posts feed */}
-        <div className="w-160">
-          {posts.map((post) => (
-            <PostCard key={post.identifier} post={post} />
-          ))}
+            <div className="container flex pt-4">
+                {/* Posts feed */}
+                <div className="w-160">
+                    {posts.map((post) => (
+                        <PostCard key={post.identifier} post={post}/>
+                    ))}
+                </div>
+
+                {/* Sidebar */}
+            </div>
         </div>
-
-        {/* Sidebar */}
-      </div>
-    </div>
-  )
+    )
 }
 
 // export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //   try {
-//     const { data } = await axios.get<IResponse<IPost[]>>('/posts')
+//     const { data } = await axios.get<IResponse<Post[]>>('/posts')
 //     return { props: { posts: data.data } }
 //   } catch (err) {
 //     console.log(err.response.data)

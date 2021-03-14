@@ -5,11 +5,10 @@
 Reddit Clone frontend and backend parts. </br>
 
 <!-- [Link to client side source code](https://github.com/quinsberry/twitter-clone-client)</br> -->
-</br>
+
 
 **Technologies:** NodeJS, PostgreSQL, Express, Typescript </br>
 **Libraries:** class-validator, typeorm, morgan </br>
-**Testing:** Jest
 
 ## Installation
 
