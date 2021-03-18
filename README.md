@@ -34,4 +34,7 @@ $ npm run build
 
 # typeorm cli
 $ npm run typeorm
+
+# add mock data to db
+$ npm run seed
 ```

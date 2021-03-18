@@ -4,8 +4,8 @@ export interface Post {
     body: string
     slug: string
     subName: string
-    createdAt: string
-    updatedAt: string
+    createdAt: Date
+    updatedAt: Date
     username: string
 
     // Virtual fields
@@ -18,6 +18,19 @@ export interface Post {
 export interface User {
     username: string
     email: string
-    createdAt: string
-    updatedAt: string
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface Sub {
+    username: string
+    email: string
+    createdAt: Date
+    updatedAt: Date
+    name: string,
+    title: string,
+    description: string,
+    imageUrn: string | null,
+    bannerUrn: string | null,
+    posts: Post[]
 }

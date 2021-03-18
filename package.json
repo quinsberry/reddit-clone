@@ -29,7 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.4.0",
     "reflect-metadata": "^0.1.10",
-    "typeorm": "0.2.29"
+    "typeorm": "0.2.29",
+    "typeorm-seeding": "^1.6.1"
   },
   "scripts": {
     "start": "node build/server.js",
@@ -38,6 +39,7 @@
     "client": "npm run dev --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   }
 }

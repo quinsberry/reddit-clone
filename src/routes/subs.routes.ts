@@ -8,3 +8,4 @@ import { SubsCtrl } from '@controllers/subs.controller'
 export const subsRoutes = Router()
 
 subsRoutes.post('/', user, auth, SubsCtrl.createSub)
+subsRoutes.get('/:name', user, SubsCtrl.getSub)

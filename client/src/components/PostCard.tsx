@@ -66,14 +66,14 @@ export const PostCard: React.FC<PostCardProps> = ({ post }): React.ReactElement 
             <div className="w-full p-2">
                 <div className="flex items-center">
                     <Link href={`/r/${subName}`}>
-                        <>
-                            <img
-                                src="https://via.placeholder.com/40"
-                                alt="pic"
-                                className="w-6 h-6 mr-1 rounded-full cursor-pointer"
-                            />
-                            <a className="text-xs font-bold cursor-pointer hover:underline">/r/{subName}</a>
-                        </>
+                        <img
+                            src="https://via.placeholder.com/40"
+                            alt="pic"
+                            className="w-6 h-6 mr-1 rounded-full cursor-pointer"
+                        />
+                    </Link>
+                    <Link href={`/r/${subName}`}>
+                        <a className="text-xs font-bold cursor-pointer hover:underline">/r/{subName}</a>
                     </Link>
                     <p className="text-xs text-gray-500">
                         <span className="mx-1">•</span>
