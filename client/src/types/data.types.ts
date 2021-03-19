@@ -33,4 +33,8 @@ export interface Sub {
     imageUrn: string | null,
     bannerUrn: string | null,
     posts: Post[]
+
+    // Virtual fields
+    imageUrl: string
+    bannerUrl?: string
 }
