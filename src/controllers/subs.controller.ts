@@ -5,6 +5,7 @@ import { getRepository } from 'typeorm'
 import { User } from '@entities/User'
 import { Sub } from '@entities/Sub'
 import { Post } from '@entities/Post'
+import * as fs from 'fs'
 
 
 export class SubsController {
@@ -44,8 +45,6 @@ export class SubsController {
                 data: newSub,
             })
         } catch (err) {
-            console.log(` >>> ${err}`)
-
             return res.status(500).json({
                 code: 500,
                 status: 'error',
@@ -88,8 +87,52 @@ export class SubsController {
             })
 
         } catch (err) {
-            console.log(` >>> ${err}`)
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
+    }
 
+    async uploadSubImage(req: Request, res: Response) {
+        const sub:Sub = res.locals.sub
+
+        try {
+            const type = req.body.type
+
+            if (type !== 'image' && type !== 'banner') {
+                fs.unlinkSync(req.file.path)
+                return res.status(400).json({
+                    code: 400,
+                    status: 'error',
+                    errors: {},
+                    message: 'Invalid image type',
+                })
+            }
+
+            let oldImageUrn = ''
+            if (type === 'image') {
+                oldImageUrn = sub.imageUrn || ''
+                sub.imageUrn = req.file.filename
+            } else if(type === 'banner') {
+                oldImageUrn = sub.bannerUrn || ''
+                sub.bannerUrn = req.file.filename
+            }
+
+            await sub.save()
+
+            if (oldImageUrn !== '') {
+                fs.unlinkSync(`public/images/${oldImageUrn}`)
+            }
+            return res.status(201).json({
+                code: 201,
+                status: 'success',
+                data: sub,
+            })
+
+        } catch (err) {
             return res.status(500).json({
                 code: 500,
                 status: 'error',

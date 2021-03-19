@@ -5,6 +5,7 @@ build/
 tmp/
 temp/
 /**/*.env
+public/
 
 ## client
 /client/node_modules
