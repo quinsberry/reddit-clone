@@ -9,5 +9,5 @@ export const postsRoutes = Router()
 
 postsRoutes.post('/', user, auth, PostsCtrl.createPost)
 postsRoutes.get('/', user, PostsCtrl.getPosts)
-postsRoutes.get('/:identifier/:slug', PostsCtrl.getPost)
+postsRoutes.get('/:identifier/:slug', user, PostsCtrl.getPost)
 postsRoutes.post('/:identifier/:slug/comments', user, auth, PostsCtrl.commentOnPost)

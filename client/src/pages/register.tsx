@@ -8,7 +8,7 @@ import { InputGroup } from '@components/common/InputGroup'
 import { useAuthState } from '@context/auth.context'
 
 
-export default function Register() {
+export default function RegisterPage() {
     const router = useRouter()
     const { authenticated } = useAuthState()
 

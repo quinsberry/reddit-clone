@@ -60,9 +60,7 @@ export default function SubPage() {
     } else if (sub.posts.length === 0) {
         postsMarkup = <p className="text-lg text-center">No posts submitted yet</p>
     } else {
-        postsMarkup = sub.posts.map((post) => (
-            <PostCard key={post.identifier} post={post}/>
-        ))
+        postsMarkup = sub.posts.map((post) => <PostCard key={post.identifier} post={post} revalidate={revalidate} />)
     }
 
     return (
@@ -72,12 +70,7 @@ export default function SubPage() {
             </Head>
             {!sub ? null : (
                 <>
-                    <input
-                        type="file"
-                        hidden={true}
-                        ref={fileInputRef}
-                        onChange={uploadImage}
-                    />
+                    <input type="file" hidden={true} ref={fileInputRef} onChange={uploadImage} />
                     {/* Sub info and images */}
                     <div>
                         {/* Banner image */}
@@ -86,16 +79,17 @@ export default function SubPage() {
                             className={cn('bg-blue-500', { 'cursor-pointer': ownSub })}
                         >
                             {sub?.bannerUrl ? (
-                                <div className="h-56 bg-blue-500" style={{
-                                    backgroundImage: `url(${sub.bannerUrl})`,
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                }}>
-
-                                </div>
+                                <div
+                                    className="h-56 bg-blue-500"
+                                    style={{
+                                        backgroundImage: `url(${sub.bannerUrl})`,
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                />
                             ) : (
-                                <div className="h-20 bg-blue-500"/>
+                                <div className="h-20 bg-blue-500" />
                             )}
                         </div>
                     </div>
@@ -113,24 +107,19 @@ export default function SubPage() {
                                         height={72}
                                     />
                                 </div>
-
                             </div>
                             <div className="pt-1 pl-24">
                                 <div className="flex items-center">
                                     <h1 className="mb-1 text-3xl font-bold">{sub.title}</h1>
                                 </div>
-                                <p className="text-sm font-bold text-gray-500">
-                                    /r/{sub.name}
-                                </p>
+                                <p className="text-sm font-bold text-gray-500">/r/{sub.name}</p>
                             </div>
                         </div>
                     </div>
                     {/* Posts & Sidebar */}
                     <div className="container flex pt-5">
-                        <div className="w-160">
-                            {postsMarkup}
-                        </div>
-                        <Sidebar sub={sub}/>
+                        <div className="w-160">{postsMarkup}</div>
+                        <Sidebar sub={sub} />
                     </div>
                 </>
             )}

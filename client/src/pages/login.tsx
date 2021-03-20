@@ -8,7 +8,7 @@ import { InputGroup } from '@components/common/InputGroup'
 import { useAuthDispatch, useAuthState } from '@context/auth.context'
 
 
-export default function Login() {
+export default function LoginPage() {
     const router = useRouter()
     const dispatch = useAuthDispatch()
     const { authenticated } = useAuthState()

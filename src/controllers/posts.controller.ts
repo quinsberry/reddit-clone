@@ -4,140 +4,146 @@ import { Post } from '@entities/Post'
 import { Sub } from '@entities/Sub'
 import { Comment } from '@entities/Comment'
 
+
 export class PostsController {
-  async createPost(req: Request, res: Response) {
-    const { title, body, sub } = req.body
+    async createPost(req: Request, res: Response) {
+        const { title, body, sub } = req.body
 
-    const user = res.locals.user
+        const user = res.locals.user
 
-    if (title.trim() === '') {
-      return res.status(400).json({
-        code: 400,
-        status: 'error',
-        message: 'Title must not be empty',
-      })
+        if (title.trim() === '') {
+            return res.status(400).json({
+                code: 400,
+                status: 'error',
+                message: 'Title must not be empty',
+            })
+        }
+
+        try {
+            const subRecord = await Sub.findOne({ name: sub })
+            if (!subRecord) {
+                return res.status(404).json({
+                    code: 404,
+                    status: 'error',
+                    message: 'Sub has not found.',
+                })
+            }
+
+            const post = new Post({ title, body, user, sub: subRecord })
+            await post.save()
+
+            return res.status(200).json({
+                code: 200,
+                status: 'success',
+                data: post,
+            })
+        } catch (err) {
+            console.log(` >>> ${err}`)
+
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
     }
 
-    try {
-      const subRecord = await Sub.findOne({ name: sub })
-      if (!subRecord) {
-        return res.status(404).json({
-          code: 404,
-          status: 'error',
-          message: 'Sub has not found.',
-        })
-      }
+    async getPosts(_: Request, res: Response) {
+        try {
+            const posts = await Post.find({
+                order: { createdAt: 'DESC' },
+                relations: ['comments', 'votes', 'sub'],
+            })
 
-      const post = new Post({ title, body, user, sub: subRecord })
-      await post.save()
+            if (res.locals.user) {
+                posts.forEach((p) => p.setUserVote(res.locals.user))
+            }
 
-      return res.status(200).json({
-        code: 200,
-        status: 'success',
-        data: post,
-      })
-    } catch (err) {
-      console.log(` >>> ${err}`)
+            return res.status(200).json({
+                code: 200,
+                status: 'success',
+                data: posts,
+            })
+        } catch (err) {
+            console.log(` >>> ${err}`)
 
-      return res.status(500).json({
-        code: 500,
-        status: 'error',
-        errors: err,
-        message: 'Something went wrong',
-      })
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
     }
-  }
 
-  async getPosts(_: Request, res: Response) {
-    try {
-      const posts = await Post.find({
-        order: { createdAt: 'DESC' },
-        relations: ['comments', 'votes', 'sub'],
-      })
+    async getPost(req: Request, res: Response) {
+        const { identifier, slug } = req.params
 
-      if (res.locals.user) {
-        posts.forEach((p) => p.setUserVote(res.locals.user))
-      }
+        try {
+            const post = await Post.findOne({ identifier, slug }, { relations: ['sub', 'votes'] })
+            if (!post) {
+                return res.status(404).json({
+                    code: 404,
+                    status: 'error',
+                    message: 'Post has not found.',
+                })
+            }
 
-      return res.status(200).json({
-        code: 200,
-        status: 'success',
-        data: posts,
-      })
-    } catch (err) {
-      console.log(` >>> ${err}`)
+            if (res.locals.user) {
+                post.setUserVote(res.locals.user)
+            }
 
-      return res.status(500).json({
-        code: 500,
-        status: 'error',
-        errors: err,
-        message: 'Something went wrong',
-      })
+            return res.status(200).json({
+                code: 200,
+                status: 'success',
+                data: post,
+            })
+        } catch (err) {
+            console.log(` >>> ${err}`)
+
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
     }
-  }
-  async getPost(req: Request, res: Response) {
-    const { identifier, slug } = req.params
 
-    try {
-      const post = await Post.findOne({ identifier, slug }, { relations: ['sub'] })
-      if (!post) {
-        return res.status(404).json({
-          code: 404,
-          status: 'error',
-          message: 'Post has not found.',
-        })
-      }
+    async commentOnPost(req: Request, res: Response) {
+        const { identifier, slug } = req.params
+        const body = req.body.body
 
-      return res.status(200).json({
-        code: 200,
-        status: 'success',
-        data: post,
-      })
-    } catch (err) {
-      console.log(` >>> ${err}`)
+        try {
+            const post = await Post.findOne({ identifier, slug })
+            if (!post) {
+                return res.status(404).json({
+                    code: 404,
+                    status: 'error',
+                    message: 'Post has not found.',
+                })
+            }
 
-      return res.status(500).json({
-        code: 500,
-        status: 'error',
-        errors: err,
-        message: 'Something went wrong',
-      })
+            const comment = new Comment({ body, user: res.locals.user, post })
+            await comment.save()
+
+            return res.status(201).json({
+                code: 201,
+                status: 'success',
+                data: comment,
+            })
+        } catch (err) {
+            console.log(` >>> ${err}`)
+
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
     }
-  }
-
-  async commentOnPost(req: Request, res: Response) {
-    const { identifier, slug } = req.params
-    const body = req.body.body
-
-    try {
-      const post = await Post.findOne({ identifier, slug })
-      if (!post) {
-        return res.status(404).json({
-          code: 404,
-          status: 'error',
-          message: 'Post has not found.',
-        })
-      }
-
-      const comment = new Comment({ body, user: res.locals.user, post })
-      await comment.save()
-
-      return res.status(201).json({
-        code: 201,
-        status: 'success',
-        data: comment,
-      })
-    } catch (err) {
-      console.log(` >>> ${err}`)
-
-      return res.status(500).json({
-        code: 500,
-        status: 'error',
-        errors: err,
-        message: 'Something went wrong',
-      })
-    }
-  }
 }
 
 export const PostsCtrl = new PostsController()

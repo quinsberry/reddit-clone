@@ -8,8 +8,8 @@ import { PostCard } from '@components/PostCard'
 import { Post, TopSub } from '@tps/data.types'
 
 
-export default function Home() {
-    const { data: posts } = useSWR<Post[]>('/posts')
+export default function HomePage() {
+    const { data: posts, revalidate } = useSWR<Post[]>('/posts')
     const { data: topSubs } = useSWR<TopSub[]>('/misc/top-subs')
 
     return (
@@ -22,7 +22,7 @@ export default function Home() {
                 {/* Posts feed */}
                 <div className="w-160">
                     {posts?.map((post) => (
-                        <PostCard key={post.identifier} post={post}/>
+                        <PostCard key={post.identifier} post={post} revalidate={revalidate} />
                     ))}
                 </div>
 

@@ -6,42 +6,31 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { Post } from '@tps/data.types'
+import { ServerResponse } from '@tps/api.types'
 
 
 dayjs.extend(relativeTime)
 
 const ActionButton = ({ children }) => (
-    <div className="px-1 py-1 mr-1 text-xs text-gray-400 rounded cursor-pointer hover:bg-gray-200">
-        {children}
-    </div>
+    <div className="px-1 py-1 mr-1 text-xs text-gray-400 rounded cursor-pointer hover:bg-gray-200">{children}</div>
 )
 
 interface PostCardProps {
     post: Post
+    revalidate: () => Promise<boolean>
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post }): React.ReactElement => {
-    const {
-        identifier,
-        slug,
-        voteScore,
-        userVote,
-        subName,
-        username,
-        createdAt,
-        url,
-        title,
-        body,
-        commentCount,
-    } = post
+export const PostCard: React.FC<PostCardProps> = ({ post, revalidate }): React.ReactElement => {
+    const { identifier, slug, voteScore, userVote, subName, username, createdAt, url, title, body, commentCount } = post
 
     const vote = async (value: number) => {
         try {
-            await axios.post('/misc/vote', {
+            await axios.post<ServerResponse<Post>>('/misc/vote', {
                 identifier,
                 slug,
                 value,
             })
+            if (revalidate) revalidate()
         } catch (err) {
             console.log(err.response.data)
         }
@@ -52,14 +41,16 @@ export const PostCard: React.FC<PostCardProps> = ({ post }): React.ReactElement 
             <div className="w-10 py-3 text-center bg-gray-200 rounded-l">
                 <div
                     className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
-                    onClick={() => vote(1)}>
-                    <i className={cn('icon-arrow-up', { 'text-red-500': userVote === 1 })}/>
+                    onClick={() => vote(1)}
+                >
+                    <i className={cn('icon-arrow-up', { 'text-red-500': userVote === 1 })} />
                 </div>
                 <p className="text-xs font-bold">{voteScore}</p>
                 <div
                     className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-600"
-                    onClick={() => vote(-1)}>
-                    <i className={cn('icon-arrow-down', { 'text-blue-600': userVote === -1 })}/>
+                    onClick={() => vote(-1)}
+                >
+                    <i className={cn('icon-arrow-down', { 'text-blue-600': userVote === -1 })} />
                 </div>
             </div>
             {/* Post data section */}
@@ -95,17 +86,17 @@ export const PostCard: React.FC<PostCardProps> = ({ post }): React.ReactElement 
                     <Link href={url}>
                         <a>
                             <ActionButton>
-                                <i className="mr-1 fas fa-comment-alt fa-xs"/>
+                                <i className="mr-1 fas fa-comment-alt fa-xs" />
                                 <span className="font-bold">{commentCount} Comments</span>
                             </ActionButton>
                         </a>
                     </Link>
                     <ActionButton>
-                        <i className="mr-1 fa fa-share fa-xs"/>
+                        <i className="mr-1 fa fa-share fa-xs" />
                         <span className="font-bold">Share</span>
                     </ActionButton>
                     <ActionButton>
-                        <i className="mr-1 fa fa-bookmark fa-xs"/>
+                        <i className="mr-1 fa fa-bookmark fa-xs" />
                         <span className="font-bold">Save</span>
                     </ActionButton>
                 </div>

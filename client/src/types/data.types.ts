@@ -4,6 +4,7 @@ export interface Post {
     body: string
     slug: string
     subName: string
+    sub: Sub<undefined>
     createdAt: Date
     updatedAt: Date
     username: string
@@ -22,7 +23,7 @@ export interface User {
     updatedAt: Date
 }
 
-export interface Sub {
+export interface Sub<P = Post[]> {
     username: string
     email: string
     createdAt: Date
@@ -32,7 +33,7 @@ export interface Sub {
     description: string,
     imageUrn: string | null,
     bannerUrn: string | null,
-    posts: Post[]
+    posts: P
 
     // Virtual fields
     imageUrl: string
