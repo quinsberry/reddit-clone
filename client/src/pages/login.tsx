@@ -35,7 +35,7 @@ export default function Login() {
             })
 
             dispatch({ type: 'AUTH::LOGIN_SUCCESS', payload: res.data.data })
-            router.push('/')
+            router.back()
 
         } catch (err) {
             console.log('>> ', err.response.data.errors)

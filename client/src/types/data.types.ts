@@ -38,3 +38,10 @@ export interface Sub {
     imageUrl: string
     bannerUrl?: string
 }
+
+export interface TopSub {
+    title: string
+    name: string
+    imageUrl: string
+    postCount: string
+}

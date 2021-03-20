@@ -9,6 +9,7 @@ import { PostCard } from '@components/PostCard'
 import { Sub } from '@tps/data.types'
 import { useAuthState } from '@context/auth.context'
 import axios from 'axios'
+import { Sidebar } from '@components/Sidebar'
 
 
 export default function SubPage() {
@@ -34,7 +35,7 @@ export default function SubPage() {
     }
 
     const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
-        const [file] = event.target.files
+        const file = event.target.files[0]
 
         const formData = new FormData()
         formData.append('file', file)
@@ -124,14 +125,15 @@ export default function SubPage() {
                             </div>
                         </div>
                     </div>
+                    {/* Posts & Sidebar */}
+                    <div className="container flex pt-5">
+                        <div className="w-160">
+                            {postsMarkup}
+                        </div>
+                        <Sidebar sub={sub}/>
+                    </div>
                 </>
             )}
-            {/* Posts & Sidebar */}
-            <div className="container flex pt-5">
-                <div className="w-160">
-                    {postsMarkup}
-                </div>
-            </div>
         </>
     )
 }

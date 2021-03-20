@@ -8,3 +8,4 @@ import { MiscCtrl } from '@controllers/misc.controller'
 export const miscRoutes = Router()
 
 miscRoutes.post('/vote', user, auth, MiscCtrl.vote)
+miscRoutes.get('/top-subs', MiscCtrl.topSubs)
