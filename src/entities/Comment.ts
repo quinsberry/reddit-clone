@@ -5,7 +5,7 @@ import { Entity } from './Entity'
 import { Post } from './Post'
 import { User } from './User'
 import { Vote } from './Vote'
-import { Exclude } from 'class-transformer'
+import { Exclude, Expose } from 'class-transformer'
 
 @TOEntity('comments', { name: 'comments' })
 export class Comment extends Entity {
@@ -34,6 +34,11 @@ export class Comment extends Entity {
   @Exclude()
   @OneToMany(() => Vote, (vote) => vote.comment)
   votes: Vote[]
+
+  @Expose()
+  get voteScore(): number {
+    return this.votes?.reduce((prev, curr) => prev + (curr.value || 0), 0)
+  }
 
   protected userVote: number
   setUserVote(user: User) {

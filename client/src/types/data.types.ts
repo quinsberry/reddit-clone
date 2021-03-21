@@ -1,12 +1,17 @@
+/*
+* -------------
+*     Post
+* -------------
+* */
+
 export interface Post {
-    identifier: string
-    title: string
-    body: string
-    slug: string
-    subName: string
-    sub: Sub<undefined>
     createdAt: Date
     updatedAt: Date
+    identifier: string
+    title: string
+    slug: string
+    body: string
+    subName: string
     username: string
 
     // Virtual fields
@@ -16,6 +21,16 @@ export interface Post {
     userVote?: number
 }
 
+export interface GettingOnePostResponse extends Post {
+    sub: Sub
+}
+
+/*
+* -------------
+*     User
+* -------------
+* */
+
 export interface User {
     username: string
     email: string
@@ -23,7 +38,13 @@ export interface User {
     updatedAt: Date
 }
 
-export interface Sub<P = Post[]> {
+/*
+* -------------
+*     Sub
+* -------------
+* */
+
+export interface Sub {
     username: string
     email: string
     createdAt: Date
@@ -33,11 +54,14 @@ export interface Sub<P = Post[]> {
     description: string,
     imageUrn: string | null,
     bannerUrn: string | null,
-    posts: P
 
     // Virtual fields
     imageUrl: string
     bannerUrl?: string
+}
+
+export interface SubWithPosts extends Sub {
+    posts: Post[]
 }
 
 export interface TopSub {
@@ -45,4 +69,27 @@ export interface TopSub {
     name: string
     imageUrl: string
     postCount: string
+}
+
+/*
+* -------------
+*    Comment
+* -------------
+* */
+
+export interface Comment {
+    createdAt: string,
+    updatedAt: string,
+    identifier: string,
+    body: string,
+    username: string,
+
+    // Virtual fields
+    userVote: number,
+    voteScore: number
+}
+
+export interface SubmittedCommentResponse extends Comment {
+    user: User
+    post: Post
 }

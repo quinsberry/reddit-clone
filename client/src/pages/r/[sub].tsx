@@ -6,7 +6,7 @@ import Image from 'next/image'
 import cn from 'classnames'
 
 import { PostCard } from '@components/PostCard'
-import { Sub } from '@tps/data.types'
+import { Sub, SubWithPosts } from '@tps/data.types'
 import { useAuthState } from '@context/auth.context'
 import axios from 'axios'
 import { Sidebar } from '@components/Sidebar'
@@ -20,7 +20,7 @@ export default function SubPage() {
     const { authenticated, user } = useAuthState()
 
     const subName = router.query.sub
-    const { data: sub, error, revalidate } = useSWR<Sub>(subName ? `/subs/${subName}` : null)
+    const { data: sub, error, revalidate } = useSWR<SubWithPosts>(subName ? `/subs/${subName}` : null)
 
     useEffect(() => {
         if (!sub) return

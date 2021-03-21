@@ -25,7 +25,7 @@ export class PostsController {
                 return res.status(404).json({
                     code: 404,
                     status: 'error',
-                    message: 'Sub has not found.',
+                    message: 'Sub not found.',
                 })
             }
 
@@ -38,8 +38,6 @@ export class PostsController {
                 data: post,
             })
         } catch (err) {
-            console.log(` >>> ${err}`)
-
             return res.status(500).json({
                 code: 500,
                 status: 'error',
@@ -66,8 +64,6 @@ export class PostsController {
                 data: posts,
             })
         } catch (err) {
-            console.log(` >>> ${err}`)
-
             return res.status(500).json({
                 code: 500,
                 status: 'error',
@@ -86,7 +82,7 @@ export class PostsController {
                 return res.status(404).json({
                     code: 404,
                     status: 'error',
-                    message: 'Post has not found.',
+                    message: 'Post not found.',
                 })
             }
 
@@ -100,8 +96,44 @@ export class PostsController {
                 data: post,
             })
         } catch (err) {
-            console.log(` >>> ${err}`)
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
+    }
 
+    async getPostComments(req: Request, res: Response) {
+        const { identifier, slug } = req.params
+
+        try {
+            const post = await Post.findOne({ identifier, slug })
+            if (!post) {
+                return res.status(404).json({
+                    code: 404,
+                    status: 'error',
+                    message: 'Post not found.',
+                })
+            }
+
+            const comments = await Comment.find({
+                where: { post },
+                order: { createdAt: 'DESC' },
+                relations: ['votes']
+            })
+
+            if (res.locals.user) {
+                comments.forEach(c => c.setUserVote(res.locals.user))
+            }
+
+            return res.status(200).json({
+                code: 200,
+                status: 'success',
+                data: comments,
+            })
+        } catch (err) {
             return res.status(500).json({
                 code: 500,
                 status: 'error',
@@ -134,8 +166,6 @@ export class PostsController {
                 data: comment,
             })
         } catch (err) {
-            console.log(` >>> ${err}`)
-
             return res.status(500).json({
                 code: 500,
                 status: 'error',
