@@ -7,7 +7,7 @@ import cn from 'classnames'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-import { Comment, GettingOnePostResponse, SubmittedCommentResponse } from '@tps/data.types'
+import { Comment, PostWithSub, SubmittedCommentResponse } from '@tps/data.types'
 import { useAuthState } from '@context/auth.context'
 import axios from 'axios'
 import { Sidebar } from '@components/Sidebar'
@@ -25,7 +25,7 @@ export default function PostPage() {
 
     const [newComment, setNewComment] = useState('')
 
-    const { data: post, error, revalidate: postRevalidation } = useSWR<GettingOnePostResponse>(
+    const { data: post, error, revalidate: postRevalidation } = useSWR<PostWithSub>(
         identifier && slug ? `/posts/${identifier}/${slug}` : null
     )
     if (error) router.push('/')

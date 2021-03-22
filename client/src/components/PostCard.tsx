@@ -6,7 +6,6 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { Post } from '@tps/data.types'
-import { ServerResponse } from '@tps/api.types'
 
 
 dayjs.extend(relativeTime)
@@ -17,7 +16,7 @@ const ActionButton = ({ children }) => (
 
 interface PostCardProps {
     post: Post
-    revalidate: () => Promise<boolean>
+    revalidate?: () => Promise<boolean>
 }
 
 export const PostCard: React.FC<PostCardProps> = ({ post, revalidate }): React.ReactElement => {
@@ -25,7 +24,7 @@ export const PostCard: React.FC<PostCardProps> = ({ post, revalidate }): React.R
 
     const vote = async (value: number) => {
         try {
-            await axios.post<ServerResponse<Post>>('/misc/vote', {
+            await axios.post<Post>('/misc/vote', {
                 identifier,
                 slug,
                 value,

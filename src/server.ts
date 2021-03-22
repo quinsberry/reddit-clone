@@ -9,6 +9,7 @@ import cors from 'cors'
 dotenv.config()
 import { authRoutes, postsRoutes, subsRoutes, miscRoutes } from './routes'
 import { trim } from './middleware'
+import { usersRoutes } from '@routes/users.router'
 
 const app = express()
 
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/posts', postsRoutes)
 app.use('/api/subs', subsRoutes)
 app.use('/api/misc', miscRoutes)
+app.use('/api/users', usersRoutes)
 
 const PORT = process.env.PORT || 5000
 async function start() {

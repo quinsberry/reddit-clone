@@ -21,7 +21,7 @@ export interface Post {
     userVote?: number
 }
 
-export interface GettingOnePostResponse extends Post {
+export interface PostWithSub extends Post {
     sub: Sub
 }
 
@@ -86,10 +86,30 @@ export interface Comment {
 
     // Virtual fields
     userVote: number,
-    voteScore: number
+    voteScore?: number
+}
+
+export interface CommentWithPost extends Comment {
+    post: Post
 }
 
 export interface SubmittedCommentResponse extends Comment {
     user: User
     post: Post
 }
+
+/*
+* -----------------
+*    Submissions
+* -----------------
+* */
+
+interface PostSubmission extends PostWithSub {
+    type: 'Post'
+}
+
+interface CommentSubmission extends CommentWithPost {
+    type: 'Comment'
+}
+
+export type Submission = PostSubmission | CommentSubmission
