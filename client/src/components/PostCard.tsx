@@ -1,3 +1,4 @@
+import { FC, ReactElement } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import cn from 'classnames'
@@ -19,7 +20,7 @@ interface PostCardProps {
     revalidate?: () => Promise<boolean>
 }
 
-export const PostCard: React.FC<PostCardProps> = ({ post, revalidate }): React.ReactElement => {
+export const PostCard: FC<PostCardProps> = ({ post, revalidate }): ReactElement => {
     const { identifier, slug, voteScore, userVote, subName, username, createdAt, url, title, body, commentCount } = post
 
     const vote = async (value: number) => {

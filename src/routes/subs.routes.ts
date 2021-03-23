@@ -11,4 +11,5 @@ export const subsRoutes = Router()
 
 subsRoutes.post('/', user, auth, SubsCtrl.createSub)
 subsRoutes.get('/:name', user, SubsCtrl.getSub)
+subsRoutes.get('/search/:name', SubsCtrl.searchSubs)
 subsRoutes.post('/:name/image', user, auth, ownSub, uploadImage.single('file'), SubsCtrl.uploadSubImage)

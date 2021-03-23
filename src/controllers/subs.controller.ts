@@ -9,7 +9,6 @@ import * as fs from 'fs'
 
 
 export class SubsController {
-
     async createSub(req: Request, res: Response) {
         const { title, name, description } = req.body
 
@@ -58,17 +57,16 @@ export class SubsController {
         const name = req.params.name
 
         try {
-
             const sub = await Sub.findOne({ name })
 
-             if (!sub) {
-                 return res.status(404).json({
-                     code: 404,
-                     status: 'error',
-                     errors: {},
-                     message: 'Sub not found',
-                 })
-             }
+            if (!sub) {
+                return res.status(404).json({
+                    code: 404,
+                    status: 'error',
+                    errors: {},
+                    message: 'Sub not found',
+                })
+            }
 
             sub.posts = await Post.find({
                 where: { sub },
@@ -77,7 +75,7 @@ export class SubsController {
             })
 
             if (res.locals.user) {
-                sub.posts.forEach(p => p.setUserVote(res.locals.user))
+                sub.posts.forEach((p) => p.setUserVote(res.locals.user))
             }
 
             return res.status(200).json({
@@ -85,7 +83,6 @@ export class SubsController {
                 status: 'success',
                 data: sub,
             })
-
         } catch (err) {
             return res.status(500).json({
                 code: 500,
@@ -97,7 +94,7 @@ export class SubsController {
     }
 
     async uploadSubImage(req: Request, res: Response) {
-        const sub:Sub = res.locals.sub
+        const sub: Sub = res.locals.sub
 
         try {
             const type = req.body.type
@@ -116,7 +113,7 @@ export class SubsController {
             if (type === 'image') {
                 oldImageUrn = sub.imageUrn || ''
                 sub.imageUrn = req.file.filename
-            } else if(type === 'banner') {
+            } else if (type === 'banner') {
                 oldImageUrn = sub.bannerUrn || ''
                 sub.bannerUrn = req.file.filename
             }
@@ -131,7 +128,38 @@ export class SubsController {
                 status: 'success',
                 data: sub,
             })
+        } catch (err) {
+            return res.status(500).json({
+                code: 500,
+                status: 'error',
+                errors: err,
+                message: 'Something went wrong',
+            })
+        }
+    }
 
+    async searchSubs(req: Request, res: Response) {
+        try {
+            const name = req.params.name
+
+            if (isEmpty(name)) {
+                return res.status(422).json({
+                    code: 422,
+                    status: 'error',
+                    errors: {},
+                    message: 'Name must not be empty',
+                })
+            }
+            const subs = await getRepository(Sub)
+                .createQueryBuilder()
+                .where('LOWER(name) LIKE :name', { name: `${name.toLocaleLowerCase().trim()}%` })
+                .getMany()
+
+            return res.status(200).json({
+                code: 200,
+                status: 'success',
+                data: subs,
+            })
         } catch (err) {
             return res.status(500).json({
                 code: 500,

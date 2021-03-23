@@ -7,9 +7,8 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 dotenv.config()
-import { authRoutes, postsRoutes, subsRoutes, miscRoutes } from './routes'
+import { authRoutes, postsRoutes, subsRoutes, miscRoutes, usersRoutes } from './routes'
 import { trim } from './middleware'
-import { usersRoutes } from '@routes/users.router'
 
 const app = express()
 

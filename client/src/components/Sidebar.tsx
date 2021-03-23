@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import { FC, ReactElement } from 'react'
 import { Sub } from '@tps/data.types'
 import Link from 'next/link'
 import { useAuthState } from '@context/auth.context'
