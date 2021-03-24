@@ -7,13 +7,46 @@ import { PostCard } from '@components/PostCard'
 
 import { Post, TopSub } from '@tps/data.types'
 import { useAuthState } from '@context/auth.context'
+import { useRef, useState } from 'react'
+import { useScroll } from '@hooks/useScroll'
+import axios from 'axios'
+import { ServerResponse } from '@tps/api.types'
 
 
 export default function HomePage() {
     const { authenticated } = useAuthState()
 
-    const { data: posts, revalidate } = useSWR<Post[]>('/posts')
+    const [posts, setPosts] = useState([])
+    const [page, setPage] = useState(1)
+    const limit = 10
+    const parentRef = useRef()
+    const childRef = useRef()
+
     const { data: topSubs } = useSWR<TopSub[]>('/misc/top-subs')
+
+
+
+
+    const fetchPosts = async (page, limit) => {
+        try {
+            const res = await axios.get<ServerResponse<Post[]>>(`/posts/?page=${page}&limit=${limit}`)
+            console.log(res)
+
+            if (res.data.status === 'success') {
+                if(!res.data.data.length) {
+                    return
+                }
+                const newPosts = res.data.data
+                setPosts(prev => [...prev, ...newPosts])
+                setPage(page => page + 1)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    useScroll(parentRef, childRef, () => fetchPosts(page, limit))
 
     return (
         <>
@@ -21,12 +54,13 @@ export default function HomePage() {
                 <title>reddit: the front page of the internet</title>
             </Head>
 
-            <div className="container flex pt-4">
+            <div ref={parentRef} className="flex pt-4 w-full justify-center" style={{maxHeight: 'calc(100vh - 3rem)', height: '100%', overflowY: 'auto'}} >
                 {/* Posts feed */}
                 <div className="w-full md:w-160 px-2 md:px-0">
-                    {posts?.map((post) => (
-                        <PostCard key={post.identifier} post={post} revalidate={revalidate} />
+                    {posts.map((post) => (
+                        <PostCard key={post.identifier} post={post} />
                     ))}
+                    <div ref={childRef} style={{height: 20, backgroundColor: 'green'}}/>
                 </div>
 
                 {/* Sidebar */}
@@ -76,6 +110,7 @@ export default function HomePage() {
                         )}
                     </div>
                 </div>
+
             </div>
         </>
     )

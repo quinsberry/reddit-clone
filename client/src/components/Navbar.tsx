@@ -65,7 +65,7 @@ export const Navbar: FC<NavbarProps> = (): ReactElement => {
     }
 
     return (
-        <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-2 sm:px-5 bg-white">
+        <div className=" inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-2 sm:px-5 bg-white">
             {/* Logo */}
             <div className="flex items-center">
                 <Link href="/">

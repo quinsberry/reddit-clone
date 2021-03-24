@@ -47,11 +47,16 @@ export class PostsController {
         }
     }
 
-    async getPosts(_: Request, res: Response) {
+    async getPosts(req: Request, res: Response) {
+        const page: number = (req.query.page || 1) as number
+        const limit: number = (req.query.limit || 0) as number
+
         try {
             const posts = await Post.find({
                 order: { createdAt: 'DESC' },
                 relations: ['comments', 'votes', 'sub'],
+                skip: (page - 1) * limit,
+                take: limit,
             })
 
             if (res.locals.user) {

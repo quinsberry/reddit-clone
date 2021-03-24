@@ -40,8 +40,8 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }): React.ReactElement
             }}
         >
             <AuthProvider>
-                {!authRoute && <Navbar />}
-                <div className={authRoute ? '' : 'pt-12'}>
+                <div style={{ height: '100vh', overflow: 'hidden' }}>
+                    {!authRoute && <Navbar />}
                     <Component {...pageProps} />
                 </div>
             </AuthProvider>
