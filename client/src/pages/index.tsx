@@ -6,9 +6,12 @@ import useSWR from 'swr'
 import { PostCard } from '@components/PostCard'
 
 import { Post, TopSub } from '@tps/data.types'
+import { useAuthState } from '@context/auth.context'
 
 
 export default function HomePage() {
+    const { authenticated } = useAuthState()
+
     const { data: posts, revalidate } = useSWR<Post[]>('/posts')
     const { data: topSubs } = useSWR<TopSub[]>('/misc/top-subs')
 
@@ -20,14 +23,14 @@ export default function HomePage() {
 
             <div className="container flex pt-4">
                 {/* Posts feed */}
-                <div className="w-160">
+                <div className="w-full md:w-160 px-2 md:px-0">
                     {posts?.map((post) => (
                         <PostCard key={post.identifier} post={post} revalidate={revalidate} />
                     ))}
                 </div>
 
                 {/* Sidebar */}
-                <div className="ml-6 w-80">
+                <div className="hidden md:block ml-6 w-80">
                     <div className="bg-white rounded">
                         <div className="p-4 border-b-2">
                             <p className="text-lg font-semibold text-center">
@@ -62,6 +65,15 @@ export default function HomePage() {
                                 </div>
                             ))}
                         </div>
+                        {!authenticated ? null : (
+                            <div className="p-4 border-t-2">
+                                <Link href='/subs/create'>
+                                    <a className="w-full blue button px-2 py-1">
+                                        Create Community
+                                    </a>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

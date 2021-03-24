@@ -65,7 +65,7 @@ export const Navbar: FC<NavbarProps> = (): ReactElement => {
     }
 
     return (
-        <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-center h-12 px-5 bg-white">
+        <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-2 sm:px-5 bg-white">
             {/* Logo */}
             <div className="flex items-center">
                 <Link href="/">
@@ -73,7 +73,7 @@ export const Navbar: FC<NavbarProps> = (): ReactElement => {
                         <RedditLogo className="w-8 h-8 mr-2" />
                     </a>
                 </Link>
-                <span className="text-2xl font-semibold">
+                <span className="text-2xl font-semibold hidden lg:block">
                     <Link href="/">
                         <a>reddit</a>
                     </Link>
@@ -81,38 +81,40 @@ export const Navbar: FC<NavbarProps> = (): ReactElement => {
             </div>
 
             {/* Search Input */}
-            <div className="relative flex items-center mx-auto bg-gray-100 border rounded hover:border-blue-500 hover:bg-white">
-                <i className="pl-4 pr-3 text-gray-500 fas fa-search" />
-                <input
-                    type="text"
-                    value={name}
-                    onChange={handleSearchChange}
-                    placeholder="Search"
-                    className="py-1 pr-3 bg-transparent rounded w-160 focus:outline-none"
-                />
-                <div
-                    className="absolute left-0 right-0 bg-white"
-                    style={{ top: 'calc(100% + 2px)' }}
-                >
-                    {name.length === 0 ? null : subs.map((sub) => (
-                        <div
-                            key={sub.name}
-                            className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-200"
-                            onClick={() => goToSub(sub.name)}
-                        >
-                            <Image
-                                src={sub.imageUrl}
-                                className="rounded-full"
-                                alt="Sub"
-                                height={(8 * 16) / 4}
-                                width={(8 * 16) / 4}
-                            />
-                            <div className="ml-4 text-sm">
-                                <p className="font-medium">{sub.name}</p>
-                                <p className="text-gray-600">{sub.title}</p>
+            <div className="sm:px-4 max-w-full w-160">
+                <div className="relative flex items-center bg-gray-100 border rounded hover:border-blue-500 hover:bg-white">
+                    <i className="pl-4 pr-3 text-gray-500 fas fa-search" />
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={handleSearchChange}
+                        placeholder="Search"
+                        className="py-1 pr-3 bg-transparent rounded focus:outline-none"
+                    />
+                    <div
+                        className="absolute left-0 right-0 bg-white"
+                        style={{ top: 'calc(100% + 2px)' }}
+                    >
+                        {name.length === 0 ? null : subs.map((sub) => (
+                            <div
+                                key={sub.name}
+                                className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-200"
+                                onClick={() => goToSub(sub.name)}
+                            >
+                                <Image
+                                    src={sub.imageUrl}
+                                    className="rounded-full"
+                                    alt="Sub"
+                                    height={(8 * 16) / 4}
+                                    width={(8 * 16) / 4}
+                                />
+                                <div className="ml-4 text-sm">
+                                    <p className="font-medium">{sub.name}</p>
+                                    <p className="text-gray-600">{sub.title}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -120,16 +122,16 @@ export const Navbar: FC<NavbarProps> = (): ReactElement => {
             <div className="flex">
                 {loadingStatus !== LoadingStatus.NEVER && loadingStatus !== LoadingStatus.LOADING ? (
                     authenticated ? (
-                        <button className="w-32 py-1 mr-4 leading-5 hollow blue button" onClick={logout}>
+                        <button className="hidden sm:block w-20 lg:w-32 py-1 mr-4 leading-5 hollow blue button" onClick={logout}>
                             Logout
                         </button>
                     ) : (
                         <>
                             <Link href="/login">
-                                <a className="w-32 py-1 mr-4 leading-5 hollow blue button">log in</a>
+                                <a className="hidden sm:block w-20 lg:w-32 py-1 mr-4 leading-5 hollow blue button">log in</a>
                             </Link>
                             <Link href="/register">
-                                <a className="w-32 py-1 leading-5 blue button">sign up</a>
+                                <a className="hidden sm:block w-20 lg:w-32 py-1 leading-5 blue button">sign up</a>
                             </Link>
                         </>
                     )
