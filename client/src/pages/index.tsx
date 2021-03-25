@@ -5,12 +5,13 @@ import useSWR from 'swr'
 
 import { PostCard } from '@components/PostCard'
 
-import { PostWithSub, TopSub } from '@tps/data.types'
+import { Post, PostWithSub, TopSub } from '@tps/data.types'
 import { useAuthState } from '@context/auth.context'
 import { useEffect, useState } from 'react'
 import { useInfiniteScroll } from '@hooks/useInfiniteScroll'
 import axios from 'axios'
 import { ServerResponse } from '@tps/api.types'
+import { GetServerSideProps } from 'next'
 
 
 const description = 'Reddit is a network of communities based on people\'s interests. Find communities you\'re interested in, and become part of an online community!'
@@ -115,12 +116,12 @@ export default function HomePage() {
     </>)
 }
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   try {
-//     const { data } = await axios.get<IResponse<Post[]>>('/posts')
-//     return { props: { posts: data.data } }
-//   } catch (err) {
-//     console.log(err.response.data)
-//     return { props: { error: err.response.data } }
-//   }
-// }
+export const getServerSideProps: GetServerSideProps = async (_) => {
+  try {
+    const { data } = await axios.get<ServerResponse<Post[]>>('/posts')
+    return { props: { posts: data.status === 'success' ? data.data : [] } }
+  } catch (err) {
+    console.log(err.response.data)
+    return { props: { error: err.response.data } }
+  }
+}
