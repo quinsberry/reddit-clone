@@ -12,7 +12,7 @@ import { useAuthState } from '@context/auth.context'
 import axios from 'axios'
 import { Sidebar } from '@components/Sidebar'
 import { ActionButton } from '@components/common/ActionButton'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 
 
 dayjs.extend(relativeTime)
@@ -33,6 +33,17 @@ export default function PostPage() {
     const { data: comments, revalidate: commentsRevalidation } = useSWR<Comment[]>(
         identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
     )
+
+    const seo = useMemo(() => {
+        if (!post) return
+        let desc = post.body || post.title
+        if (desc.length > 160) {
+            desc = desc.substring(0, 158).concat('..')
+        }
+        return {
+            description: desc,
+        }
+    }, [post])
 
     const vote = async (value: number, comment?: Comment) => {
         // If not logged in go to login
@@ -81,6 +92,11 @@ export default function PostPage() {
         <>
             <Head>
                 <title>{post?.title}</title>
+                <meta name="description" content={seo?.description} />
+                <meta name="og:description" content={seo?.description} />
+                <meta name="og:title" content={post?.title} />
+                <meta name="twitter:description" content={seo?.description} />
+                <meta name="twitter:title" content={post?.title} />
             </Head>
             <Link href={`/r/${sub}`}>
                 <a>

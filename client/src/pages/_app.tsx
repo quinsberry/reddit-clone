@@ -26,7 +26,7 @@ const fetcher = async (url: string) => {
     }
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api'
+axios.defaults.baseURL = `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api`
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }): React.ReactElement => {
     const { pathname } = useRouter()
     const authRoutes = ['/register', '/login']

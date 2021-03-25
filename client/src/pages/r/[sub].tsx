@@ -69,7 +69,7 @@ export default function SubPage() {
                 <title>{sub?.title}</title>
             </Head>
             {!sub ? null : (
-                <>
+                <div style={{ maxHeight: 'calc(100vh - 3rem)', height: '100%', overflowY: 'auto' }}>
                     <input type="file" hidden={true} ref={fileInputRef} onChange={uploadImage} />
                     {/* Sub info and images */}
                     <div>
@@ -121,7 +121,7 @@ export default function SubPage() {
                         <div className="w-160">{postsMarkup}</div>
                         <Sidebar sub={sub} />
                     </div>
-                </>
+                </div>
             )}
         </>
     )

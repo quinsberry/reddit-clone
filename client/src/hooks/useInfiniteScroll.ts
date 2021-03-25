@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 
-export const useInfiniteScroll = <RefType extends HTMLDivElement>(fetch, length) => {
+export const useInfiniteScroll = <RefType extends HTMLDivElement>(callback: () => void, trigger: any) => {
     const [canScroll, setCanScroll] = useState(true)
     const containerRef = useRef<RefType>()
 
@@ -10,7 +10,7 @@ export const useInfiniteScroll = <RefType extends HTMLDivElement>(fetch, length)
 
         const handleScroll = () => {
             if (canScroll && container.scrollTop === container.scrollHeight - container.offsetHeight) {
-                fetch()
+                callback()
                 setCanScroll(false)
             }
         }
@@ -20,11 +20,11 @@ export const useInfiniteScroll = <RefType extends HTMLDivElement>(fetch, length)
         return () => {
             if (container) container.removeEventListener('scroll', handleScroll)
         }
-    }, [canScroll, fetch])
+    }, [canScroll, callback])
 
     useEffect(() => {
         setCanScroll(true)
-    }, [length])
+    }, [trigger])
 
     return containerRef
 }
