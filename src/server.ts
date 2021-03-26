@@ -25,7 +25,7 @@ app.use(
   }),
 )
 
-app.get('/', (_, res) => res.send("It's working"))
+app.get('/api', (_, res) => res.send("It's working"))
 app.use('/api/auth', authRoutes)
 app.use('/api/posts', postsRoutes)
 app.use('/api/subs', subsRoutes)
