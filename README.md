@@ -5,8 +5,8 @@
 Reddit Clone frontend and backend parts. </br>
 
 
-**Technologies:** NodeJS, PostgreSQL, Express, Typescript </br>
-**Libraries:** class-validator, typeorm, morgan </br>
+**Technologies:** Next.js, NodeJS, PostgreSQL, Express, Typescript </br>
+**Libraries:** class-validator, typeorm, typeorm-seeding, morgan </br>
 
 ## Installation
 
