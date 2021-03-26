@@ -2,6 +2,7 @@
   "name": "reddit-clone",
   "version": "0.0.1",
   "description": "Just Reddit clone application",
+  "engines": { "node": "14.15.4" },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
     "@types/cookie": "^0.4.0",
@@ -37,7 +38,8 @@
     "typeorm-seeding": "^1.6.1"
   },
   "scripts": {
-    "start": "npm run server:build && npm run server:prod",
+    "start": "npm run server:prod",
+    "postinstall": "npm run server:build",
     "server": "nodemon",
     "server:prod": "NODE_ENV=production node build/server.js",
     "server:build": "npx tsc && tsc-alias",
