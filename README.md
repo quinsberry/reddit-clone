@@ -4,8 +4,6 @@
 
 Reddit Clone frontend and backend parts. </br>
 
-<!-- [Link to client side source code](https://github.com/quinsberry/twitter-clone-client)</br> -->
-
 
 **Technologies:** NodeJS, PostgreSQL, Express, Typescript </br>
 **Libraries:** class-validator, typeorm, morgan </br>
@@ -13,8 +11,10 @@ Reddit Clone frontend and backend parts. </br>
 ## Installation
 
 1. `npm install`
-2. Create `.env` file by `cp .env.example .env` command.
-3. Install PostgreSQL if you didn't do that yet.
+2. `npm run client:install`
+3. Create `.env` file by `cp .env.example .env` command.
+4. Go to client directory and create `.env` file by `cp .env.example .env.local` command.
+5. Install PostgreSQL if you didn't do that yet.
 
 ## Running the app
 
@@ -27,10 +27,12 @@ $ npm run server
 
 # production mode
 # before start you need to build the app
-$ npm run start
+$ npm run server:prod
+$ npm run client:prod
 
 # build
-$ npm run build
+$ npm run server:build
+$ npm run client:build
 
 # typeorm cli
 $ npm run typeorm
